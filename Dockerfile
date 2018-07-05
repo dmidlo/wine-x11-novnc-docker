@@ -15,7 +15,12 @@ ENV LANGUAGE en_US.UTF-8
  usermod -d /config nobody && \
  chown -R nobody:users /home
 
-RUN apt-get update &&  apt-get -y install xvfb x11vnc xdotool wget supervisor wine
+RUN apt-get update &&  apt-get -y install xvfb x11vnc xdotool wget supervisor 
+RUN wget -nc https://dl.winehq.org/wine-builds/Release.key
+RUN apt-key add Release.key
+RUN apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
+RUN apt update
+RUN apt-get -y install wine-stable winehq-stable
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ENV WINEPREFIX /root/prefix32
