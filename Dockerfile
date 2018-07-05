@@ -1,5 +1,5 @@
-FROM phusion/baseimage:0.9.16
-MAINTAINER archedraft
+FROM phusion/baseimage
+MAINTAINER rix1337
 
 # Set correct environment variables
 ENV HOME /root
@@ -15,17 +15,27 @@ ENV LANGUAGE en_US.UTF-8
  usermod -d /config nobody && \
  chown -R nobody:users /home
 
-RUN apt-get update &&  apt-get -y install xvfb x11vnc xdotool wget supervisor 
-RUN wget -nc https://dl.winehq.org/wine-builds/Release.key
-RUN apt-key add Release.key
-RUN apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/
-RUN apt update
-RUN apt-get -y install wine-stable winehq-stable
+RUN apt-get update &&  apt-get -y install xvfb x11vnc xdotool wget supervisor cabextract websockify net-tools
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ENV WINEPREFIX /root/prefix32
 ENV WINEARCH win32
 ENV DISPLAY :0
+
+# Install wine
+RUN \
+ dpkg --add-architecture i386 && \
+ wget -nc https://dl.winehq.org/wine-builds/Release.key && \
+ apt-key add Release.key && \
+ apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
+ apt-get update && \
+ apt-get -y install --install-recommends winehq-stable
+
+RUN \
+ cd /usr/bin/ && \
+ wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && \
+ chmod +x winetricks && \
+ sh winetricks corefonts
 
 WORKDIR /root/
 ADD novnc /root/novnc/
