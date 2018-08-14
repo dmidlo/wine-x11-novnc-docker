@@ -8,7 +8,7 @@ ENV LC_ALL C.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
-RUN apt-get update &&  apt-get -y install xvfb x11vnc xdotool wget nano supervisor cabextract websockify net-tools
+RUN apt-get update && apt-get -y upgrade && apt-get -y install xvfb x11vnc xdotool wget nano supervisor cabextract websockify net-tools
 RUN apt-get -y autoclean && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
