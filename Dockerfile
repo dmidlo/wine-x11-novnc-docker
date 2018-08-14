@@ -41,3 +41,4 @@ ADD novnc /root/novnc/
 EXPOSE 8080
 
 CMD ["/usr/bin/supervisord"]
+
