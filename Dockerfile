@@ -40,5 +40,5 @@ ADD novnc /root/novnc/
 # Expose Port
 EXPOSE 6080
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
 
